@@ -9,6 +9,7 @@
 plugins {
   // Apply the java-library plugin to add support for Java Library
   id 'java-library'
+  id 'eclipse'
 }
 
 repositories {
@@ -25,4 +26,11 @@ dependencies {
 
 test {
   useJUnitPlatform()
+}
+
+eclipse {
+  classpath {
+    downloadJavadoc = true
+    downloadSources = true
+  }
 }

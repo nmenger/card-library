@@ -2,7 +2,7 @@ package ca.mengern.game.cardlibrary.card.standardcard;
 
 import ca.mengern.game.cardlibrary.card.Card;
 
-public class StandardCard extends Card {
+public class StandardCard implements Card {
 
   private final StandardCardSuit suit;
   private final StandardCardRank rank;
