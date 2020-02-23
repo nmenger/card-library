@@ -1,7 +1,6 @@
 package ca.mengern.game.cardlibrary.hand.standardhand;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,79 +34,76 @@ class TestStandardHandOfCards {
     StandardDeck deck = StandardDeck.buildOrdered52CardDeck();
 
     StandardHandOfCards hand = new StandardHandOfCards(deck, 4);
-    assertTrue("Internal representations must be same size", hand.sortedHandRanks.size() == hand.getHand().size());
+    assertThat(hand.sortedHandRanks.size()).isEqualTo(hand.getHand().size());
 
     StandardHandOfCards newHand = new StandardHandOfCards(hand.getHand());
-    assertTrue("Internal representations must be same size",
-        newHand.sortedHandRanks.size() == newHand.getHand().size());
+    assertThat(hand.sortedHandRanks.size()).isEqualTo(newHand.getHand().size());
 
     hand = new StandardHandOfCards(NINE_DIAMONDS, THREE_DIAMONDS, FOUR_DIAMONDS, FIVE_DIAMONDS, SEVEN_DIAMONDS);
-    assertTrue("Internal representations must be same size", hand.sortedHandRanks.size() == hand.getHand().size());
+    assertThat(hand.sortedHandRanks.size()).isEqualTo(hand.getHand().size());
   }
 
   @Test
   void testSyncedHands() {
     StandardHandOfCards hand = new StandardHandOfCards(NINE_DIAMONDS, THREE_DIAMONDS, FOUR_DIAMONDS, FIVE_DIAMONDS,
         SEVEN_DIAMONDS);
-    assertTrue("Internal representations must be same size", hand.sortedHandRanks.size() == hand.getHand().size());
+    assertThat(hand.sortedHandRanks.size()).isEqualTo(hand.getHand().size());
 
     hand.addCardToHand(QUEEN_HEARTS);
-    assertTrue("Internal representations must be same size", hand.sortedHandRanks.size() == hand.getHand().size());
+    assertThat(hand.sortedHandRanks.size()).isEqualTo(hand.getHand().size());
 
     hand.removeCardFromHand(QUEEN_HEARTS);
-    assertTrue("Internal representations must be same size", hand.sortedHandRanks.size() == hand.getHand().size());
+    assertThat(hand.sortedHandRanks.size()).isEqualTo(hand.getHand().size());
   }
 
   @Test
   void testGetHighestRank() {
     StandardHandOfCards hand = new StandardHandOfCards(ACE_SPADES, KING_HEARTS);
-    assertTrue("Aces must be higher than kings",
-        StandardHandOfCards.getHighestRank(hand.getSortedHandRanks()) == StandardCardRank.ACE);
+    assertThat(StandardHandOfCards.getHighestRank(hand.getSortedHandRanks())).isEqualTo(StandardCardRank.ACE);
 
     hand = new StandardHandOfCards(TWO_CLUBS, KING_HEARTS);
-    assertTrue("Kings must be higher than twos",
-        StandardHandOfCards.getHighestRank(hand.getSortedHandRanks()) == StandardCardRank.KING);
+    assertThat(StandardHandOfCards.getHighestRank(hand.getSortedHandRanks())).isEqualTo(StandardCardRank.KING);
   }
 
   @Test
   void testIsStraight() {
     StandardHandOfCards hand = new StandardHandOfCards(ACE_SPADES, ACE_CLUBS, TWO_CLUBS, THREE_DIAMONDS, FOUR_DIAMONDS);
-    assertFalse("Two aces cannot be a straight", hand.isStraight());
+    assertThat(hand.isStraight()).isFalse();
 
     hand = new StandardHandOfCards(TWO_CLUBS, THREE_DIAMONDS, FOUR_DIAMONDS, FIVE_DIAMONDS, SIX_DIAMONDS);
-    assertTrue("This should be a straight", hand.isStraight());
+    assertThat(hand.isStraight()).isTrue();
 
     hand = new StandardHandOfCards(TWO_CLUBS, THREE_DIAMONDS, FOUR_DIAMONDS, FIVE_DIAMONDS, SEVEN_DIAMONDS);
-    assertFalse("This is not a straight", hand.isStraight());
+    assertThat(hand.isStraight()).isFalse();
 
     hand = new StandardHandOfCards(TEN_HEARTS, JACK_HEARTS, QUEEN_HEARTS, KING_HEARTS, ACE_CLUBS);
-    assertTrue("This should be an ace-high straight", hand.isStraight());
+    assertThat(hand.isStraight()).isTrue();
   }
 
   @Test
   void testWheelStraight() {
     StandardHandOfCards hand = new StandardHandOfCards(ACE_CLUBS, TWO_CLUBS, THREE_DIAMONDS, FOUR_DIAMONDS,
         FIVE_DIAMONDS);
-    assertTrue("This should be a wheel straight", hand.isStraight());
+    assertThat(hand.isStraight()).isTrue();
 
     hand = new StandardHandOfCards(TWO_CLUBS, THREE_DIAMONDS, FOUR_DIAMONDS, FIVE_DIAMONDS, SEVEN_DIAMONDS);
-    assertFalse("This is not a wheel straight", hand.isStraight());
+    assertThat(hand.isStraight()).isFalse();
 
     hand = new StandardHandOfCards(ACE_CLUBS, SIX_DIAMONDS, THREE_DIAMONDS, FOUR_DIAMONDS, FIVE_DIAMONDS);
-    assertFalse("This is not a wheel straight", hand.isStraight());
+    assertThat(hand.isStraight()).isFalse();
 
     hand = new StandardHandOfCards(ACE_CLUBS, SIX_DIAMONDS, TWO_CLUBS, FOUR_DIAMONDS, FIVE_DIAMONDS);
-    assertFalse("This is not a wheel straight", hand.isStraight());
+    assertThat(hand.isStraight()).isFalse();
   }
 
   @Test
   void testIsFlush() {
     StandardHandOfCards hand = new StandardHandOfCards(NINE_DIAMONDS, THREE_DIAMONDS, FOUR_DIAMONDS, FIVE_DIAMONDS,
         SEVEN_DIAMONDS);
-    assertTrue("This should be a flush", hand.isFlush());
+    assertThat(hand.isFlush()).isTrue();
 
     hand = new StandardHandOfCards(TEN_HEARTS, THREE_DIAMONDS, FOUR_DIAMONDS, FIVE_DIAMONDS, SEVEN_DIAMONDS);
-    assertFalse("This is not a flush", hand.isFlush());
+    assertThat(hand.isFlush()).isFalse();
   }
 
   @Test
@@ -117,13 +113,13 @@ class TestStandardHandOfCards {
 
     List<StandardCard> threeOfAKind = hand.getFirstBunchOfDuplicates(3);
 
-    assertTrue("There should be a three of a kind", threeOfAKind.size() == 3);
+    assertThat(threeOfAKind.size()).isEqualTo(3);
     for (StandardCard card : threeOfAKind) {
-      assertTrue("All three cards should be aces", card.getRank() == StandardCardRank.ACE);
+      assertThat(card.getRank()).isEqualTo(StandardCardRank.ACE);
     }
 
     List<StandardCard> fourOfAKind = hand.getFirstBunchOfDuplicates(4);
-    assertTrue("There is no four of a kind", fourOfAKind == null);
+    assertThat(fourOfAKind).isNull();
   }
 
   @Test
@@ -138,7 +134,6 @@ class TestStandardHandOfCards {
 
     StandardHandOfCards remainingCards = hand.removeAll(cardsToRemove);
 
-    assertTrue("There should be 3 cards left", remainingCards.size() == 3);
-
+    assertThat(remainingCards.size()).isEqualTo(3);
   }
 }

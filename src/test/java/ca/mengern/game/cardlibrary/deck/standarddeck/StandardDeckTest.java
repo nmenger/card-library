@@ -1,6 +1,7 @@
 package ca.mengern.game.cardlibrary.deck.standarddeck;
 
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import ca.mengern.game.cardlibrary.card.standardcard.StandardCard;
@@ -13,15 +14,15 @@ class StandardDeckTest {
   void testBuildOrdered52CardDeck() {
     StandardDeck deck = StandardDeck.buildOrdered52CardDeck();
 
-    Assert.assertEquals(52, deck.size());
+    assertThat(deck.size()).isEqualTo(52);
 
     StandardCard firstCard = deck.inspectTop();
-    Assert.assertEquals(StandardCardRank.ACE, firstCard.getRank());
-    Assert.assertEquals(StandardCardSuit.CLUB, firstCard.getSuit());
+    assertThat(firstCard.getRank()).isEqualTo(StandardCardRank.ACE);
+    assertThat(firstCard.getSuit()).isEqualTo(StandardCardSuit.CLUB);
 
     StandardCard lastCard = deck.inspectBottom();
-    Assert.assertEquals(StandardCardRank.KING, lastCard.getRank());
-    Assert.assertEquals(StandardCardSuit.HEART, lastCard.getSuit());
+    assertThat(lastCard.getRank()).isEqualTo(StandardCardRank.KING);
+    assertThat(lastCard.getSuit()).isEqualTo(StandardCardSuit.HEART);
   }
 
 }
