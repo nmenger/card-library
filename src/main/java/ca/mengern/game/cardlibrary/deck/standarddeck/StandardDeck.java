@@ -12,24 +12,24 @@ import ca.mengern.game.cardlibrary.deck.Deck;
 
 public class StandardDeck extends Deck<StandardCard> {
 
-	private StandardDeck(LinkedList<StandardCard> deck) {
-		super(deck);
-	}
+  private StandardDeck(LinkedList<StandardCard> deck) {
+    super(deck);
+  }
 
-	public static StandardDeck buildOrdered52CardDeck() {
-		LinkedList<StandardCard> newDeck = new LinkedList<StandardCard>();
+  public static StandardDeck buildOrdered52CardDeck() {
+    LinkedList<StandardCard> newDeck = new LinkedList<StandardCard>();
 
-		// Natural enum order is by rank, we want ordered by draw order
-		List<StandardCardRank> ranksByDrawOrder = new ArrayList<StandardCardRank>();
-		ranksByDrawOrder.addAll(Arrays.asList(StandardCardRank.values()));
-		ranksByDrawOrder.sort(StandardCardRank.ORDER_COMPARATOR);
+    // Natural enum order is by rank, we want ordered by draw order
+    List<StandardCardRank> ranksByDrawOrder = new ArrayList<StandardCardRank>();
+    ranksByDrawOrder.addAll(Arrays.asList(StandardCardRank.values()));
+    ranksByDrawOrder.sort(StandardCardRank.ORDER_COMPARATOR);
 
-		for (StandardCardSuit suit : StandardCardSuit.values()) {
-			for (StandardCardRank rank : ranksByDrawOrder) {
-				newDeck.add(new StandardCard(suit, rank));
-			}
-		}
+    for (StandardCardSuit suit : StandardCardSuit.values()) {
+      for (StandardCardRank rank : ranksByDrawOrder) {
+        newDeck.add(new StandardCard(suit, rank));
+      }
+    }
 
-		return new StandardDeck(newDeck);
-	}
+    return new StandardDeck(newDeck);
+  }
 }
